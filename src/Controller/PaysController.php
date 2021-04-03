@@ -2,13 +2,13 @@
 
 namespace App\Controller;
 
-use App\Entity\Country;
-use App\Entity\Continents;
-use App\Entity\Regions;
+use App\Entity\Pays;
+use App\Entity\Continent;
+use App\Entity\Region;
 use App\Form\CountryEx;
-use App\Repository\ContinentsRepository;
-use App\Repository\CountryRepository;
-use App\Repository\RegionsRepository;
+use App\Repository\ContinentRepository;
+use App\Repository\PaysRepository;
+use App\Repository\RegionRepository;
 use App\Service\SerializerService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,33 +31,31 @@ class PaysController extends AbstractController
 
     /**
      * @Route("/pays", name="pays", methods={"GET"})
-     * @param CountryRepository $countryRepository
+     * @param PaysRepository $paysRepository
      * @return Response
      */
-    public function index(CountryRepository $countryRepository): Response
+    public function index(PaysRepository $paysRepository): Response
     {
-        return $this->render('pays/index.html.twig', [
-            'controller_name' => 'CountryController',
-        ]);
+        return JsonResponse::fromJsonString($this->serializerService->RelationSerializer($paysRepository->findAll(), 'json'));
     }
 
     /**
      * @Route("/pays/new", name="pays_new", methods={"POST"})
      * @param Request $request
-     * @param ContinentsRepository $continentsRepository
+     * @param ContinentRepository $continentRepository
      * @param EntityManagerInterface $em
      * @param ValidatorInterface $validator
      * @return Response
      */
 
-    public function newPays(Request $request, ContinentsRepository $continentsRepository, EntityManagerInterface $em, ValidatorInterface $validator): Response
+    public function newPays(Request $request, ContinentRepository $continentRepository, EntityManagerInterface $em, ValidatorInterface $validator): Response
     {
         $data = json_decode($request->getContent(), true);
 
         if ($data) {
 
-            $continents = $continentsRepository->findOneBy(['id']);
-            if ($data['nom']) {
+            $continents = $continentRepository->findOneBy(['id']);
+            if ($data['country']) {
                 $pays = new Country();
 
                 $form = $this->createForm(CountryEx::class, $pays);
@@ -71,7 +69,7 @@ class PaysController extends AbstractController
                     }
                 }
 
-                $pays->setContinents($continents);
+                $pays->setContinent($continents);
 
                 $this->em->persist($pays);
                 $this->em->flush();

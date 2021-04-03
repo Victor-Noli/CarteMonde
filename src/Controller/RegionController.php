@@ -2,11 +2,11 @@
 
 namespace App\Controller;
 
-use App\Entity\Regions;
+use App\Entity\Region;
 use App\Form\RegionsEx;
 
-use App\Repository\CountryRepository;
-use App\Repository\RegionsRepository;
+use App\Repository\PaysRepository;
+use App\Repository\RegionRepository;
 
 use Doctrine\ORM\EntityManagerInterface;
 use App\Service\SerializerService;
@@ -30,35 +30,33 @@ class RegionController extends AbstractController
 
     /**
      * @Route("/region", name="region", methods={"GET"})
-     * @param RegionsRepository $regionsRepository
+     * @param RegionRepository $regionRepository
      * @return Response
      */
-    public function index(RegionsRepository $regionsRepository): Response
+    public function index(RegionRepository $regionRepository): Response
     {
-        return $this->render('region/index.html.twig', [
-            'controller_name' => 'RegionsController',
-        ]);
+        return JsonResponse::fromJsonString($this->serializerService->RelationSerializer($regionRepository->findAll(), 'json'));
     }
 
     /**
      * @Route("/region/new", name="region_new", methods={"POST"})
-     * @param CountryRepository $countryRepository
+     * @param PaysRepository $paysRepository
      * @param ValidatorInterface $validator
      * @param Request $request
      * @param EntityManagerInterface $em
      * @return Response
      */
-    public function newRegion(CountryRepository $countryRepository, ValidatorInterface $validator, Request $request, EntityManagerInterface $em): Response
+    public function newRegion(PaysRepository $paysRepository, ValidatorInterface $validator, Request $request, EntityManagerInterface $em): Response
     {
         $data = json_decode($request->getContent(), true);
 
         if ($data) {
 
-            $pays = $countryRepository->findOneBy(['id' => 7]);
+            $pays = $paysRepository->findOneBy(['id' => 7]);
 
             if ($data['nom']) {
 
-                $region = new Regions();
+                $region = new Region();
 
                 $form = $this->createForm(RegionsEx::class, $region);
 
@@ -72,7 +70,7 @@ class RegionController extends AbstractController
                     }
                 }
 
-                $region->setCountry($pays);
+                $region->setPays($pays);
 
                 $this->em->persist($region);
 

@@ -2,14 +2,14 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Continents;
-use App\Entity\Country;
-use App\Entity\Regions;
-use App\Repository\ContinentsRepository;
+use App\Entity\Continent;
+use App\Entity\Pays;
+use App\Entity\Region;
+
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use phpDocumentor\Reflection\Types\String_;
+
 class AppFixtures extends Fixture
 {
     /**
@@ -18,65 +18,62 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        $asie = new Continents();
-        $asie->setNom("Asie");
+        $asie = new Continent();
+        $asie->setNom('Asie');
         $manager->persist($asie);
 
-        $japon = new Country();
+        $japon = new Pays();
         $japon->setNom("Japon");
-        $japon->setContinents($asie);
+        $japon->setContinent($asie);
         $manager->persist($japon);
 
-        $tokyo = new Regions();
+        $tokyo = new Region();
         $tokyo->setNom("Tokyo");
-        $tokyo->setCountry($japon);
+        $tokyo->setPays($japon);
         $manager->persist($tokyo);
 
-        $kyoto = new Regions();
+        $kyoto = new Region();
         $kyoto->setNom("Kyoto");
-        $kyoto->setCountry($japon);
+        $kyoto->setPays($japon);
         $manager->persist($kyoto);
 
-        $america = new Continents();
+        $america = new Continent();
         $america->setNom("Amerique");
         $manager->persist($america);
 
-        $usa = new Country();
+        $usa = new Pays();
         $usa->setNom("USA");
-        $usa->setContinents($america);
+        $usa->setContinent($america);
         $manager->persist($usa);
 
-        $texas = new Regions();
+        $texas = new Region();
         $texas->setNom("Texas");
-        $texas->setCountry($usa);
+        $texas->setPays($usa);
         $manager->persist($texas);
 
-        $wash = new Regions();
+        $wash = new Region();
         $wash->setNom("Washington");
-        $wash->setCountry($usa);
+        $wash->setPays($usa);
         $manager->persist($wash);
 
-        $europe = new Continents();
+        $europe = new Continent();
         $europe->setNom("Europe");
         $manager->persist($europe);
 
-        $france = new Country();
+        $france = new Pays();
         $france->setNom("France");
-        $france->setContinents($europe);
+        $france->setContinent($europe);
         $manager->persist($france);
 
-        $normandie = new Regions();
+        $normandie = new Region();
         $normandie->setNom("Normandie");
-        $normandie->setCountry($france);
+        $normandie->setPays($france);
         $manager->persist($normandie);
 
-        $bretagne = new Regions();
+        $bretagne = new Region();
         $bretagne->setNom("Bretagne");
-        $bretagne->setCountry($france);
+        $bretagne->setPays($france);
         $manager->persist($bretagne);
-
-
-
 
         $manager->flush();
     }

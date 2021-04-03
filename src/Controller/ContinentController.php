@@ -2,9 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Continents;
+use App\Entity\Continent;
+use App\Entity\Pays;
 use App\Form\ContinentEx;
-use App\Repository\ContinentsRepository;
+use App\Repository\ContinentRepository;
 
 use Doctrine\ORM\EntityManagerInterface;
 use App\Service\SerializerService;
@@ -28,14 +29,12 @@ class ContinentController extends AbstractController
 
     /**
      * @Route("/continent", name="continent", methods={"GET"})
-     * @param ContinentsRepository $continentsRepository
+     * @param ContinentRepository $continentRepository
      * @return  Response
      */
-    public function index(ContinentsRepository $continentsRepository): Response
+    public function index(ContinentRepository $continentRepository): Response
     {
-        return $this->render('continent/index.html.twig', [
-            'controller_name' => 'ContinentController',
-        ]);
+        return JsonResponse::fromJsonString($this->serializerService->RelationSerializer($continentRepository->findAll(), 'json'));
     }
 
     /**
@@ -49,8 +48,8 @@ class ContinentController extends AbstractController
     {
         $data = json_decode($request->getContent(), true);
         if ($data) {
-            if ($data['nom']) {
-                $continent = new Continents();
+            if ($data['Country']) {
+                $continent = new Continent();
                 $form = $this->createForm(ContinentEx::class, $continent);
                 $form->submit($data);
                 $validate = $validator->validate($continent, null, 'RegisterContinent');
@@ -74,12 +73,12 @@ class ContinentController extends AbstractController
 
     /**
      * @Route("/continent/delete/{id}", name="continent_delete", methods={"DELETE"})
-     * @param ContinentsRepository $continentRepository
+     * @param ContinentRepository $continentRepository
      * @param int $id
      * @return Response
      */
 
-    public function deleteContinent(ContinentsRepository $continentRepository, $id = 0): Response
+    public function deleteContinent(ContinentRepository $continentRepository, $id = 0): Response
     {
         $continent = $continentRepository->find($id);
         if ($continent) {

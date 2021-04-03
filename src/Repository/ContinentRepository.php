@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Continents;
+use App\Entity\Continent;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Continents|null find($id, $lockMode = null, $lockVersion = null)
- * @method Continents|null findOneBy(array $criteria, array $orderBy = null)
- * @method Continents[]    findAll()
- * @method Continents[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Continent|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Continent|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Continent[]    findAll()
+ * @method Continent[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ContinentsRepository extends ServiceEntityRepository
+class ContinentRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Continents::class);
+        parent::__construct($registry, Continent::class);
     }
 
     // /**
-    //  * @return Continents[] Returns an array of Continents objects
+    //  * @return Continent[] Returns an array of Continent objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class ContinentsRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Continents
+    public function findOneBySomeField($value): ?Continent
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.exampleField = :val')
