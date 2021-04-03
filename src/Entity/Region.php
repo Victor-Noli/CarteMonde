@@ -48,7 +48,6 @@ class Region
     {
         return $this->pays;
     }
-
     public function setPays(?Pays $pays): self
     {
         $this->pays = $pays;
