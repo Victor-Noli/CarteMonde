@@ -52,10 +52,11 @@ class Continent
     }
 
     /**
-     * @return Collection|Pays[]
+     * @return ArrayCollection|Pays[]
      */
-    public function getPays(): Collection
+    public function getPays(): ArrayCollection
     {
+        $this->pays = new ArrayCollection();
         return $this->pays;
     }
 

@@ -71,6 +71,7 @@ class Pays
      */
     public function getRegion(): Collection
     {
+        $this->region = new ArrayCollection();
         return $this->region;
     }
     public function addRegion(Region $rejion): self
