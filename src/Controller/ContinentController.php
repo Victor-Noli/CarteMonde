@@ -33,11 +33,13 @@ class ContinentController extends AbstractController
      */
     public function index(ContinentsRepository $continentsRepository): Response
     {
-        return JsonResponse::fromJsonString($this->serializerService->RelationSerializer($continentsRepository->findAll(), 'json'));
+        return $this->render('continent/index.html.twig', [
+            'controller_name' => 'ContinentController',
+        ]);
     }
 
     /**
-     * @Route("/continent/new", name="continent_new", methode={"POST"})
+     * @Route("/continent/new", name="continent_new", methods={"POST"})
      * @param Request $request
      * @param ValidatorInterface $validator
      * @param EntityManagerInterface $em

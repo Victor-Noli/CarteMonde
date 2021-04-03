@@ -35,7 +35,9 @@ class RegionController extends AbstractController
      */
     public function index(RegionsRepository $regionsRepository): Response
     {
-        return JsonResponse::fromJsonString($this->serializerService->RelationSerializer($regionsRepository->findAll(), 'json'));
+        return $this->render('region/index.html.twig', [
+            'controller_name' => 'RegionsController',
+        ]);
     }
 
     /**

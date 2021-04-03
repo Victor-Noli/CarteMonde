@@ -36,7 +36,9 @@ class PaysController extends AbstractController
      */
     public function index(CountryRepository $countryRepository): Response
     {
-        return JsonResponse::fromJsonString($this->serializerService->RelationSerializer($countryRepository->findAll(), 'json'));
+        return $this->render('pays/index.html.twig', [
+            'controller_name' => 'CountryController',
+        ]);
     }
 
     /**
