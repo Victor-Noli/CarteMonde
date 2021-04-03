@@ -6,6 +6,7 @@ use App\Repository\CountryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CountryRepository::class)
@@ -20,20 +21,33 @@ class Country
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity=Continents::class, inversedBy="test", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(type="string", length=255)
+     *
+     * @Assert\NotBlank(
+     *     message="Merci de renseigner un nom de pays.",
+     *     groups={"RegisterCountry"}
+     *     )
+     *
+     * @Assert\Length(
+     *     min="3",
+     *     minMessage="Merci de renseigner un nom de pays correct.",
+     *     groups={"RegisterCountry"}
+     *     )
      */
     private $nom;
-
+    /**
+     * @ORM\ManyToOne(targetEntity=Ecole::class, inversedBy="classes")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $continents;
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $region;
+    private $regions;
 
     /**
      * @ORM\OneToMany(targetEntity=Regions::class, mappedBy="nom", orphanRemoval=true)
      */
-    private $regions;
 
     public function __construct()
     {
@@ -57,22 +71,7 @@ class Country
         return $this;
     }
 
-    public function getRegion(): ?string
-    {
-        return $this->region;
-    }
 
-    public function setRegion(string $region): self
-    {
-        $this->region = $region;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Regions[]
-     */
-    private $continents;
 
     public function getContinents(): ?Continents
     {
@@ -85,6 +84,11 @@ class Country
 
         return $this;
     }
+
+    /**
+     * @return Collection|Regions[]
+     */
+
 
     public function getRegions(): Collection
     {
