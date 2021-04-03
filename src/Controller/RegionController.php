@@ -62,7 +62,7 @@ class RegionController extends AbstractController
 
                 $form->submit($data);
 
-                $validate = $validator->validate($region, null, 'RegisterRegions');
+                $validate = $validator->validate($region, null, 'RegisterRegion');
 
                 if (count($validate) !== 0) {
                     foreach ($validate as $error) {

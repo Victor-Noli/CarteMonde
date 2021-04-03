@@ -56,13 +56,13 @@ class PaysController extends AbstractController
 
             $continents = $continentRepository->findOneBy(['id']);
             if ($data['country']) {
-                $pays = new Country();
+                $pays = new Pays();
 
                 $form = $this->createForm(CountryEx::class, $pays);
 
                 $form->submit($data);
 
-                $validate = $validator->validate($pays, null, 'RegisterCountry');
+                $validate = $validator->validate($pays, null, 'RegisterPays');
                 if (count($validate) !== 0) {
                     foreach ($validate as $error) {
                         return new JsonResponse($error->getMessage(), Response::HTTP_BAD_REQUEST);
